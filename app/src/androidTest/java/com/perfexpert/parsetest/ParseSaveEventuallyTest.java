@@ -167,7 +167,7 @@ public class ParseSaveEventuallyTest {
             public Void then(Task<ParseSession> task) throws Exception {
                 if (task.isFaulted()) {
                     Log.e(tag, task.getError().getLocalizedMessage());
-                    mException = (ParseException)task.getError();
+                    mException = (ParseException) task.getError();
                 }
                 mSession = task.getResult();
                 lockGetSession.countDown();
@@ -186,6 +186,7 @@ public class ParseSaveEventuallyTest {
             public Void then(Task<Void> task) throws Exception {
                 if (task.isFaulted()) {
                     Log.e(tag, task.getError().getLocalizedMessage());
+                    mException = (ParseException) task.getError();
                 }
                 lockSaveEventually.countDown();
                 return null;
@@ -202,7 +203,7 @@ public class ParseSaveEventuallyTest {
             public Void then(Task<Void> task) throws Exception {
                 if (task.isFaulted()) {
                     Log.e(tag, task.getError().getLocalizedMessage());
-                    mException = (ParseException)task.getError();
+                    mException = (ParseException) task.getError();
                 }
                 lockSaveInbackground.countDown();
                 return null;
@@ -210,5 +211,15 @@ public class ParseSaveEventuallyTest {
         });
         Assert.assertTrue(lockSaveInbackground.await(10, TimeUnit.SECONDS));
         Assert.assertEquals(mException.getCode(), ParseException.INVALID_SESSION_TOKEN);
+    }
+
+    @Test
+    public void testClearInstallationCache() throws Exception {
+        ParseCacheUtils.clearInstallationCache();
+    }
+
+    @Test
+    public void testClearUserCache() throws Exception {
+        ParseCacheUtils.clearUserCache();
     }
 }
