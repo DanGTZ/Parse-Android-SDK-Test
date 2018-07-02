@@ -132,7 +132,7 @@ public class ParseSaveEventuallyTest {
 
         Log.d(tag, "Saving installation again...");
         installation.put("field", "another data");
-        final CountDownLatch lockSaveInbackground = new CountDownLatch(1);
+        final CountDownLatch lockSaveInBackground = new CountDownLatch(1);
         installation.saveInBackground().continueWith(new Continuation<Void, Void>() {
             @Override
             public Void then(Task<Void> task) throws Exception {
@@ -140,11 +140,11 @@ public class ParseSaveEventuallyTest {
                     Log.e(tag, task.getError().getLocalizedMessage());
                     mException = (ParseException)task.getError();
                 }
-                lockSaveInbackground.countDown();
+                lockSaveInBackground.countDown();
                 return null;
             }
         });
-        Assert.assertTrue(lockSaveInbackground.await(10, TimeUnit.SECONDS));
+        Assert.assertTrue(lockSaveInBackground.await(10, TimeUnit.SECONDS));
         Assert.assertEquals(mException.getCode(), ParseException.INVALID_SESSION_TOKEN);
     }
 
@@ -197,7 +197,7 @@ public class ParseSaveEventuallyTest {
 
         Log.d(tag, "Saving user again...");
         mUser.put("field", "another data");
-        final CountDownLatch lockSaveInbackground = new CountDownLatch(1);
+        final CountDownLatch lockSaveInBackground = new CountDownLatch(1);
         mUser.saveInBackground().continueWith(new Continuation<Void, Void>() {
             @Override
             public Void then(Task<Void> task) throws Exception {
@@ -205,11 +205,11 @@ public class ParseSaveEventuallyTest {
                     Log.e(tag, task.getError().getLocalizedMessage());
                     mException = (ParseException) task.getError();
                 }
-                lockSaveInbackground.countDown();
+                lockSaveInBackground.countDown();
                 return null;
             }
         });
-        Assert.assertTrue(lockSaveInbackground.await(10, TimeUnit.SECONDS));
+        Assert.assertTrue(lockSaveInBackground.await(10, TimeUnit.SECONDS));
         Assert.assertEquals(mException.getCode(), ParseException.INVALID_SESSION_TOKEN);
     }
 
